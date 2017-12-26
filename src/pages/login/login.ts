@@ -7,6 +7,8 @@ import { MainPage } from '../pages';
 
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 
+import { Storage } from '@ionic/storage';
+
 @IonicPage()
 @Component({
   selector: 'page-login',
@@ -17,10 +19,10 @@ export class LoginPage {
   // If you're using the username field with or without email, make
   // sure to add it to the type
   loading:Loading;
-
+  
   registerCredentials: { email: string, password: string } = {
-    email: 'test@example.com',
-    password: 'test'
+    email: 'asegaf@ymail.com',
+    password: 'zulhamganteng'
   };
 
   // registerCredentials = {email:'',password:''};

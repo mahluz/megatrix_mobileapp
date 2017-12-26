@@ -5,6 +5,8 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 import { Settings } from '../../providers/providers';
 
+import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
+
 /**
  * The Settings page is a simple form that syncs with a Settings provider
  * to enable the user to customize settings for the app.
@@ -38,7 +40,8 @@ export class SettingsPage {
     public settings: Settings,
     public formBuilder: FormBuilder,
     public navParams: NavParams,
-    public translate: TranslateService) {
+    public translate: TranslateService,
+    public auth:AuthServiceProvider) {
   }
 
   _buildForm() {
@@ -92,4 +95,19 @@ export class SettingsPage {
   ngOnChanges() {
     console.log('Ng All Changes');
   }
+
+  logout(){
+    this.auth.logout().subscribe(allowed=>{
+      if(allowed){
+        this.navCtrl.push('TutorialPage');
+      } else {
+        this.auth.showError("cant logout");
+      }
+    });
+  }
+
+  debug(){
+    this.auth.debug();
+  }
+
 }

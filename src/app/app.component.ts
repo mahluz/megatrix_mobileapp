@@ -2,10 +2,12 @@ import { Component, ViewChild } from '@angular/core';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { TranslateService } from '@ngx-translate/core';
-import { Config, Nav, Platform } from 'ionic-angular';
+import { Config, Nav, Platform, AlertController, Loading, LoadingController } from 'ionic-angular';
 
-import { FirstRunPage } from '../pages/pages';
+import { FirstRunPage, LoginPage, MainPage } from '../pages/pages';
 import { Settings } from '../providers/providers';
+import { Storage } from '@ionic/storage';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   template: `<ion-menu [content]="content">
@@ -27,7 +29,7 @@ import { Settings } from '../providers/providers';
   <ion-nav #content [root]="rootPage"></ion-nav>`
 })
 export class MyApp {
-  rootPage = FirstRunPage;
+  public rootPage:any;
 
   @ViewChild(Nav) nav: Nav;
 
@@ -45,8 +47,26 @@ export class MyApp {
     { title: 'Search', component: 'SearchPage' }
   ]
 
-  constructor(private translate: TranslateService, platform: Platform, settings: Settings, private config: Config, private statusBar: StatusBar, private splashScreen: SplashScreen) {
+  constructor(private translate: TranslateService, platform: Platform, settings: Settings, private config: Config, private statusBar: StatusBar, private splashScreen: SplashScreen,public storage:Storage, public http:HttpClient, public alertCtrl:AlertController, loadingCtrl: LoadingController) {
     platform.ready().then(() => {
+      this.storage.get('token').then(data=>{
+        console.log(data);
+        if(data == null){
+          this.rootPage = FirstRunPage;
+        } else {
+          this.http.post('http://localhost:8000/api/user',{token:data}).subscribe(data=>{
+            console.log(data);
+            if(data["response"] != "error"){
+              this.rootPage = MainPage;
+            } else {
+              this.rootPage = LoginPage;
+            }
+          },error=>{
+            console.log('error nih',error.message);
+            this.rootPage = LoginPage;
+          });
+        }
+      });
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();

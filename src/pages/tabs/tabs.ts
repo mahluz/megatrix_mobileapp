@@ -6,6 +6,8 @@ import { Tab1Root } from '../pages';
 import { Tab2Root } from '../pages';
 import { Tab3Root } from '../pages';
 
+import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
+
 @IonicPage()
 @Component({
   selector: 'page-tabs',
@@ -20,11 +22,18 @@ export class TabsPage {
   tab2Title = " ";
   tab3Title = " ";
 
-  constructor(public navCtrl: NavController, public translateService: TranslateService) {
+  constructor(
+    public navCtrl: NavController, 
+    public translateService: TranslateService,
+    public auth:AuthServiceProvider){
+
     translateService.get(['TAB1_TITLE', 'TAB2_TITLE', 'TAB3_TITLE']).subscribe(values => {
       this.tab1Title = values['TAB1_TITLE'];
       this.tab2Title = values['TAB2_TITLE'];
       this.tab3Title = values['TAB3_TITLE'];
+
+      this.auth.getUserInfo();
+
     });
   }
 }
