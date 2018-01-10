@@ -1,22 +1,77 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>{{ 'SEARCH_TITLE' | translate }}</ion-title>
+    <ion-title>Pesanan anda</ion-title>
   </ion-navbar>
-
+  <ion-toolbar no-border-top>
+    <ion-segment [(ngModel)]="order">
+      <ion-segment-button value="keranjang">
+        Keranjang
+      </ion-segment-button>
+      <ion-segment-button value="proses">
+        Dalam Proses
+      </ion-segment-button>
+    </ion-segment>
+</ion-toolbar>
 </ion-header>
 
 
+<!-- <ion-content>
+   <form>
+    <ion-list>
+      <ion-item-sliding>
+        <button ion-item>
+          <h2>Pemasangan Listrik</h2>
+          <p>Something</p>
+        </button>
+
+        <ion-item-options>
+          <button ion-button color="info" (click)="openMaterial()">Material List</button>
+          <button ion-button color="danger" >
+            Cancel
+          </button>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-list>
+    <button ion-button block>Send</button>
+  </form>
+</ion-content> -->
+<!-- Segment in a header -->
+
 <ion-content>
-  <ion-searchbar (ionInput)="getItems($event)" placeholder="{{ 'SEARCH_PLACEHOLDER' | translate }}"></ion-searchbar>
-  <ion-list>
-    <button ion-item (click)="openItem(item)" *ngFor="let item of currentItems">
-      <ion-avatar item-start>
-        <img [src]="item.profilePic" />
-      </ion-avatar>
-      <h2>{{item.name}}</h2>
-      <p>{{item.about}}</p>
-      <ion-note item-end *ngIf="item.note">{{item.note}}</ion-note>
-    </button>
-  </ion-list>
+  <div [ngSwitch]="order">
+    <form *ngSwitchCase="'keranjang'">
+      <ion-list>
+        <ion-item-sliding>
+          <button ion-item>
+            <h2>Pemasangan Listrik</h2>
+            <p>Something</p>
+          </button>
+
+          <ion-item-options>
+            <button ion-button color="info" (click)="openMaterial()">Material List</button>
+            <button ion-button color="danger" >
+              Cancel
+            </button>
+          </ion-item-options>
+        </ion-item-sliding>
+      </ion-list>
+      <button ion-button block>Send</button>
+    </form>
+
+    <ion-list *ngSwitchCase="'proses'">
+      <ion-item-sliding>
+        <button ion-item>
+          <h2>Pemasangan Listrik</h2>
+          <p>Something</p>
+        </button>
+
+        <ion-item-options>
+          <button ion-button color="danger">Keluhan</button>
+          <button ion-button color="secondary">Validasi</button>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-list>
+</div>
+
 </ion-content>

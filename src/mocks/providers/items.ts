@@ -16,17 +16,17 @@ export class Items {
   constructor() {
     let items = [
       {
-        "name": "GO-SWIMMING",
+        "name": "layanan A",
         "profilePic": "assets/img/speakers/bear.jpg",
         "about": "registration form"
       },
       {
-        "name": "GO-AEROBICS",
+        "name": "Layanan B",
         "profilePic": "assets/img/speakers/cheetah.jpg",
         "about": "registration form"
       },
       {
-        "name": "GO-MASSAGE",
+        "name": "layanan B",
         "profilePic": "assets/img/speakers/duck.jpg",
         "about": "registration form"
       }

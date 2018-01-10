@@ -9,6 +9,7 @@
 
 <ion-content>
   <div class="item-profile" text-center #profilePic [style.background-image]="'url(' + item.profilePic + ')'">
+    <ion-img src="http://localhost/megatrix_server/storage/app/public/service.png" style="background-size: cover"></ion-img>
   </div>
 
   <div class="item-detail" padding>
@@ -16,31 +17,13 @@
     <!-- <p>{{item.about}}</p> -->
   </div>
 
-  <form>
+  <form (ngSubmit)="sendRequest()">
   	<ion-list>
   		<ion-item>
   			<ion-label>
-  				Name
+  				Keluhan
   			</ion-label>
-  			<ion-input type="text" ></ion-input>
-  		</ion-item>
-  		<ion-item>
-  			<ion-label>
-  				Age
-  			</ion-label>
-  			<ion-input type="text" ></ion-input>
-  		</ion-item>
-  		<ion-item>
-  			<ion-label>
-  				Sex
-  			</ion-label>
-  			<ion-input type="text" ></ion-input>
-  		</ion-item>
-  		<ion-item>
-  			<ion-label>
-  				Traning Start at
-  			</ion-label>
-  			<ion-input type="text" ></ion-input>
+  			<ion-input type="text" [(ngModel)]="request.keluhan" name="keluhan" ></ion-input>
   		</ion-item>
   	</ion-list>
   	<button ion-button small block>Submit</button>

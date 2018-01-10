@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { IonicPage, ModalController, NavController } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
 
 import { Item } from '../../models/item';
 import { Items } from '../../providers/providers';
+import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 
 @IonicPage()
 @Component({
@@ -11,9 +13,18 @@ import { Items } from '../../providers/providers';
 })
 export class ListMasterPage {
   currentItems: Item[];
+  problems:any;
 
-  constructor(public navCtrl: NavController, public items: Items, public modalCtrl: ModalController) {
+  constructor(public navCtrl: NavController, public items: Items, public modalCtrl: ModalController, public auth:AuthServiceProvider,public storage:Storage) {
     this.currentItems = this.items.query();
+    this.auth.getProblem();
+    this.storage.get('problem').then((data)=>{
+      console.log("problem storage",data);
+      this.problems = data['result'];
+      console.log("problem variable",this.problems[0]);  
+    });
+
+    // console.log("problem",this.problems);
   }
 
   /**

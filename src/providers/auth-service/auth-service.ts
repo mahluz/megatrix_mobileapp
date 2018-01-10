@@ -39,7 +39,7 @@ export class AuthServiceProvider {
 		console.log(credentials);
 		return Observable.create(observer=>{
 			// let access = (credentials.password==='pass' && credentials.email==='email');
-			this.http.post("http://localhost:8000/api/auth/login",credentials).subscribe(result=>{
+			this.http.post("http://localhost/megatrix_server/api/auth/login",credentials).subscribe(result=>{
 				console.log(result);
 				if(result['response'] == 'success'){
 					this.storage.set('token',result['result']['token']);
@@ -62,8 +62,9 @@ export class AuthServiceProvider {
 		this.storage.get('token').then((data)=>{
 			let access = {token:data};
 
-			this.http.post('http://localhost:8000/api/user',access).subscribe(data=>{
+			this.http.post('http://localhost/megatrix_server/api/user',access).subscribe(data=>{
 			  console.log(data);
+			  this.storage.set('userInfo',data);
 			  return data;
 			});
 
@@ -94,6 +95,41 @@ export class AuthServiceProvider {
 	public debug(){
 		this.storage.get('token').then(data=>{
 			console.log(data);
+			let access = {token:data};
+			this.http.post('http://localhost/megatrix_server/api/problem',access).subscribe(problem=>{
+				console.log(problem);
+			});
+			this.storage.get('userInfo').then((user)=>{
+				console.log("data",user);
+			});
+		});
+	}
+
+	public sendRequest(request){
+		// console.log(data);
+		this.storage.get('token').then(data=>{
+			let access = {
+				token:data,
+				request:request
+			};
+			this.http.post('http://localhost/megatrix_server/api/request',access).subscribe(result=>{
+				console.log(result);
+				console.log('seharusnya berhasil');
+			},error=>{
+				console.log("gagal");
+			});
+		});
+	}
+
+	public getProblem(){
+
+		this.storage.get('token').then((data)=>{
+			let access = {token:data};
+			this.http.post('http://localhost/megatrix_server/api/problem',access).subscribe(data=>{
+				this.storage.set('problem',data);
+				console.log("post",data);
+			});
+
 		});
 	}
 

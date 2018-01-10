@@ -10,22 +10,7 @@ import { Storage } from '@ionic/storage';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
-  template: `<ion-menu [content]="content">
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>Pages</ion-title>
-      </ion-toolbar>
-    </ion-header>
-
-    <ion-content>
-      <ion-list>
-        <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
-          {{p.title}}
-        </button>
-      </ion-list>
-    </ion-content>
-
-  </ion-menu>
+  template: `
   <ion-nav #content [root]="rootPage"></ion-nav>`
 })
 export class MyApp {
@@ -44,17 +29,19 @@ export class MyApp {
     { title: 'Master Detail', component: 'ListMasterPage' },
     { title: 'Menu', component: 'MenuPage' },
     { title: 'Settings', component: 'SettingsPage' },
-    { title: 'Search', component: 'SearchPage' }
+    { title: 'Search', component: 'SearchPage' },
+    { title: 'Material', component: 'MaterialPage' },
+
   ]
 
   constructor(private translate: TranslateService, platform: Platform, settings: Settings, private config: Config, private statusBar: StatusBar, private splashScreen: SplashScreen,public storage:Storage, public http:HttpClient, public alertCtrl:AlertController, loadingCtrl: LoadingController) {
     platform.ready().then(() => {
       this.storage.get('token').then(data=>{
-        console.log(data);
+        // console.log(data);
         if(data == null){
           this.rootPage = FirstRunPage;
         } else {
-          this.http.post('http://localhost:8000/api/user',{token:data}).subscribe(data=>{
+          this.http.post('http://localhost/megatrix_server/api/user',{token:data}).subscribe(data=>{
             console.log(data);
             if(data["response"] != "error"){
               this.rootPage = MainPage;
